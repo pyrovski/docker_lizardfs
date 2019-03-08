@@ -69,9 +69,8 @@ COPY docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod 744 /docker-entrypoint.sh
 
 # Expose Ports
-EXPOSE 9419 9420 9421 9424
+EXPOSE 80 9419 9420 9421 9424
 
-# Set the Docker entrypoint and default command
-ENTRYPOINT [ "/docker-entrypoint.sh" ]
-CMD [ "master" ]
+RUN echo "127.0.0.1 mfsmaster" >> /etc/hosts
 
+CMD bash -c "/docker-entrypoint.sh master; nohup /docker-entrypoint.sh cgiserver & sleep infinity"
